@@ -1,0 +1,67 @@
+to :moveto [:x :y]
+  [ penup fd x rt 90 fd y lt 90 pendown]
+expose :moveto
+
+to :rsquare [:size]
+  [ repeat 4 [fd size rt 90]]
+expose :rsquare
+
+to :lsquare [:size]
+  [ repeat 4 [fd size lt 90]]
+expose :lsquare
+
+to :pyramid [:psize]
+  [ repeat psize 
+    [ 
+      rsquare mult $1 6                     /* draw a square */
+      penup bk 3 lt 90 fd 3 rt 90 pendown   /* move to spot for the next square */
+    ] 
+  ]
+expose :pyramid
+
+to :lcircle [:l :d]
+  [ repeat 360 [ fd l lt d ] ]
+expose :lcircle
+
+to :circle [:direction :l :d]
+  [ repeat 360 
+    [ 
+      fd l 
+      call direction [d]
+    ] 
+  ]
+expose :circle
+
+to :larc [:l :d :arcd]
+  [ repeat arcd [ fd l lt d ] ]
+expose :larc
+
+to :donut []
+  [ repeat 36       /* Repeat 36 times, arc will be 10 degrees -> makes a circle */
+    [ larc 3 1 10   /* draw a short arc of 10 degrees */
+      lcircle 2 1   /* and draw a circle at that position */
+    ] 
+  ]
+expose :donut
+
+to :spiral [:turns]
+  [ repeat turns [
+      fd div $1 1000
+      rt 1
+    ]
+  ]
+expose :spiral
+
+/* Creates a radar sweep. Currently this leaves some artifacts. :-( */
+to :radar [:length :waittime]
+  [ repeat 360 
+    [ setforeground black 
+      fd length wait waittime 
+      setforeground backgroundColor 
+      bk length rt 1 
+    ] 
+    setforeground black
+    fd length
+    bk length
+  ]
+expose :radar
