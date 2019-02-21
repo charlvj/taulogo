@@ -5,6 +5,7 @@
  */
 package com.charlware.taulogo;
 
+import com.charlware.taulang.ui.TauEditorPane;
 import com.wordpress.tips4java.MessageConsole;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
@@ -243,8 +244,10 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void btNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNewActionPerformed
         TauEditorPane editor = new TauEditorPane();
-        editor.newFile();
-        addClosableTab("Unnamed" + unnamedCount++, editor);
+        editor.setFileChooser(fileChooser);
+        String filename = "Unnamed" + unnamedCount++;
+        editor.newFile(filename);
+        addClosableTab(filename, editor);
     }//GEN-LAST:event_btNewActionPerformed
 
     private void btOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btOpenActionPerformed
@@ -278,6 +281,7 @@ public class MainFrame extends javax.swing.JFrame {
         }
         try {
             editor.saveFile();
+            pnTabs.setTitleAt(index, editor.getFile().getName());
         } catch (FileNotFoundException ex) {
             System.err.println("Error saving file: " + ex);
         }
