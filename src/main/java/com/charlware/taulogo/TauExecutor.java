@@ -54,7 +54,8 @@ public class TauExecutor {
     
     public boolean bootstrap(Collection<File> imports) {
         StringBuilder bootstrap = new StringBuilder();
-        imports.forEach(f -> bootstrap.append("print \"Importing " + f.getName() + "...\" printline ")
+        bootstrap.append("import \"logo.tau\" \"\" ");
+        imports.forEach(f -> bootstrap.append("print \"Importing " + f.getAbsolutePath() + "...\" printline ")
                 .append("import \"")
                 .append(f.getAbsolutePath())
                 .append("\"")

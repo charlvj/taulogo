@@ -93,6 +93,29 @@ public class TurtleRegister extends AbstractRegister {
             }
         });
         
+        reg(new GenericFunction0("hide") {
+            @Override
+            public Value execute() throws Exception {
+                turtle.setHidden(true);
+                return null;
+            }
+        });
+        
+        reg(new GenericFunction0("show") {
+            @Override
+            public Value execute() throws Exception {
+                turtle.setHidden(false);
+                return null;
+            }
+        });
+        
+        reg(new GenericFunction0("current_direction") {
+            @Override
+            public Value execute() throws Exception {
+                return new NumberValue(turtle.getDirection());
+            }
+        });
+        
         reg(new GenericFunction0("readline") {
             @Override
             public Value execute() throws Exception {

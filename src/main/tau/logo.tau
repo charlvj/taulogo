@@ -1,0 +1,17 @@
+to :reset_direction []
+ [ lt minus 90 current_direction ]
+expose :reset_direction
+
+to :polar_theta [:x :y] 
+  [ atan2 x y ]
+expose :polar_theta
+
+to :polar_rad [:x :y]
+  [ sqrt plus sqr x sqr y ]
+expose :polar_rad
+
+to :moveto [:x :y]
+  [ rt toDegrees polar_theta x y
+    fd polar_rad x y
+  ]
+expose :moveto

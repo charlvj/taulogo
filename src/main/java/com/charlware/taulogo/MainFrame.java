@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 
@@ -81,6 +83,11 @@ public class MainFrame extends javax.swing.JFrame {
         List<File> files = new ArrayList();
         for(JComponent comp: tabs.values()) {
             TauEditorPane p = (TauEditorPane) comp;
+            try {
+                p.saveFile();
+            } catch (FileNotFoundException ex) {
+                System.out.println("Trouble loading a file: " + ex);
+            }
             files.add(p.getFile());
         }
         return files;

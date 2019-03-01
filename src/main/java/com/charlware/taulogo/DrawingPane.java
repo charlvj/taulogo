@@ -29,7 +29,6 @@ public class DrawingPane extends JPanel implements TurtleListener {
     private Turtle turtle = new Turtle();
     private Point origin = new Point();
     private Deque<TurtleMovement> shapes = new ConcurrentLinkedDeque();
-//    private Path2D linePath;
 
     public DrawingPane() {
         reset();
@@ -46,17 +45,16 @@ public class DrawingPane extends JPanel implements TurtleListener {
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
         Graphics2D g = (Graphics2D) graphics;
-//        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_RENDER_QUALITY);
         g.translate(origin.x, origin.y);
-        paintTurtle(g);
         g.setColor(Color.BLACK);
-//        shapes. forEach(movement -> {
         shapes.descendingIterator().forEachRemaining(movement -> {
             Path2D path = movement.getPath();
             Color color = movement.getColor();
             g.setColor(color);
             g.draw(path);
             });
+        
+        paintTurtle(g);
     }
 
     protected void paintTurtle(Graphics2D g) {
@@ -107,8 +105,6 @@ public class DrawingPane extends JPanel implements TurtleListener {
     @Override
     public void penStateChanged(Turtle turtle) {
         if (!turtle.isPenDown()) {
-//            Path2D newPath = new Path2D.Double();
-//            newPath.moveTo(turtle.getPosition().getX(), turtle.getPosition().getY());
             TurtleMovement movement = new TurtleMovement(turtle);
             shapes.push(movement);
             repaint();
@@ -117,8 +113,6 @@ public class DrawingPane extends JPanel implements TurtleListener {
     
     @Override
     public void penColorChanged(Turtle turtle) {
-//        Path2D newPath = new Path2D.Double();
-//        newPath.moveTo(turtle.getPosition().getX(), turtle.getPosition().getY());
         TurtleMovement movement = new TurtleMovement(turtle);
         shapes.push(movement);
         repaint();
@@ -130,10 +124,6 @@ public class DrawingPane extends JPanel implements TurtleListener {
         turtle.setDirection(90);
         TurtleMovement movement = new TurtleMovement(turtle);
         shapes.push(movement);
-//        Path2D linePath = new Path2D.Double();
-//        linePath.moveTo(0, 0);
-//        shapes.add(linePath);
-//        turtle.setPosition(0, 0);
         repaint();
     }
 }
