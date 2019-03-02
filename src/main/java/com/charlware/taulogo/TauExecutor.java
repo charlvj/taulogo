@@ -12,6 +12,8 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -34,6 +36,11 @@ public class TauExecutor {
         tauRuntime.initialize();
         tau = new Interpreter(tauRuntime);
         tauRuntime.setInterpreter(tau);
+        try {
+            tau.interpret("import \"logo.tau\" \"\"");
+        } catch (Exception ex) {
+            System.out.println("Error initializing logo.tau: " + ex);
+        }
     }
 
     public void runFresh(String code, List<File> imports) {
@@ -54,7 +61,7 @@ public class TauExecutor {
     
     public boolean bootstrap(Collection<File> imports) {
         StringBuilder bootstrap = new StringBuilder();
-        bootstrap.append("import \"logo.tau\" \"\" ");
+//        bootstrap.append("import \"logo.tau\" \"\" ");
         imports.forEach(f -> bootstrap.append("print \"Importing " + f.getAbsolutePath() + "...\" printline ")
                 .append("import \"")
                 .append(f.getAbsolutePath())
