@@ -34,6 +34,7 @@ public class DrawingPane extends JPanel implements TurtleListener {
         reset();
         turtle.setTurtleListener(this);
         setDoubleBuffered(true);
+        setBackground(Color.WHITE);
         repaint();
     }
 

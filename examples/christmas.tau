@@ -1,0 +1,78 @@
+to :circle [:step :angle :direction]
+[ make :count div 360 angle
+  repeat count 
+  [ fd step 
+    call direction angle 
+  ]
+]
+expose :circle
+
+to :snowman []
+[ rt 90
+  /* Bottom circle */
+  circle 15 10 @rt
+  /* Middle circle */
+  circle 10 10 @lt
+  repeat 18 [ fd 10 lt 10 ]
+  /* The Head */
+  circle 8 10 @rt
+  
+  /* go to the left and draw an arm */
+  repeat 9 [ fd 10 lt 10 ]
+  rt 90
+  snowman_arm 80
+
+  /* Now do the other side */
+  rt 90
+  repeat 18 [ rt 10 fd 10 ] bk 10
+  lt 90
+  snowman_arm 80
+
+  /* Get back to the bottom of the torso */
+  rt 90
+  fd 10 repeat 9 [ rt 10 fd 10 ] bk 5
+
+  /* Make some buttons */
+  rt 100 penup fd 25 pendown circle 1 20 @rt
+  lt 5 penup fd 25 pendown circle 1 20 @rt
+  lt 5 penup fd 25 pendown circle 1 20 @rt
+  lt 5 penup fd 25 pendown circle 1 20 @rt
+  
+  /* Get to the center base of the head */
+  penup fd 15
+  /* up a little */
+  rt 5 fd 15
+  /* Get into pos for a mouth */
+  lt 90   repeat 9 [ fd 2 rt 10 ]
+  rt 120
+  /* And draw a mount */
+  pendown repeat 6 [ fd 4 lt 10 ]
+
+]
+expose :snowman
+
+
+to :snowman_arm [:length]
+[ make :finger_length div length 3
+  fd length
+  lt 20 fd finger_length bk finger_length
+  rt 40 fd finger_length bk finger_length
+  lt 20 fd finger_length bk finger_length
+  bk length
+]
+expose :snowman_arm
+
+
+
+
+to :triangle [:size :direction]
+[ lt 30 
+  fd size
+  call direction 120
+  fd size
+  call direction 120
+  fd size
+  call direction 120
+  rt 30
+]
+expose :triangle

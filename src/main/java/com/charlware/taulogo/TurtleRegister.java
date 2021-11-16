@@ -5,12 +5,15 @@
  */
 package com.charlware.taulogo;
 
+import java.awt.Color;
+
 import com.charlware.taulang.AbstractRegister;
 import com.charlware.taulang.functions.GenericFunction0;
 import com.charlware.taulang.functions.GenericFunction1;
+import com.charlware.taulang.values.DoubleValue;
+import com.charlware.taulang.values.IntegerValue;
 import com.charlware.taulang.values.NumberValue;
 import com.charlware.taulang.values.Value;
-import java.awt.Color;
 
 /**
  *
@@ -31,7 +34,7 @@ public class TurtleRegister extends AbstractRegister {
         reg(new GenericFunction1("forward", "distance") {
             @Override
             public Value execute(Value distance) throws Exception {
-                turtle.forward(distance.asNumber());
+                turtle.forward(distance.asDouble());
                 return distance;
             }
         });
@@ -39,7 +42,7 @@ public class TurtleRegister extends AbstractRegister {
         reg(new GenericFunction1("back", "distance") {
             @Override
             public Value execute(Value distance) throws Exception {
-                turtle.back(distance.asNumber());
+                turtle.back(distance.asDouble());
                 return distance;
             }
         });
@@ -47,7 +50,7 @@ public class TurtleRegister extends AbstractRegister {
         reg(new GenericFunction1("left", "angle") {
             @Override
             public Value execute(Value angle) throws Exception {
-                turtle.left(angle.asNumber());
+                turtle.left(angle.asDouble());
                 return angle;
             }
         });
@@ -55,7 +58,7 @@ public class TurtleRegister extends AbstractRegister {
         reg(new GenericFunction1("right", "angle") {
             @Override
             public Value execute(Value angle) throws Exception {
-                turtle.right(angle.asNumber());
+                turtle.right(angle.asDouble());
                 return angle;
             }
         });
@@ -112,7 +115,7 @@ public class TurtleRegister extends AbstractRegister {
         reg(new GenericFunction0("current_direction") {
             @Override
             public Value execute() throws Exception {
-                return new NumberValue(turtle.getDirection());
+                return new DoubleValue(turtle.getDirection());
             }
         });
         
@@ -129,14 +132,14 @@ public class TurtleRegister extends AbstractRegister {
             @Override
             public Value execute() throws Exception {
                 Color color = turtle.getColor();
-                return new NumberValue((double) color.getRGB());
+                return new DoubleValue((double) color.getRGB());
             }
         });
         
         reg(new GenericFunction0("backgroundColor") {
             @Override
             public Value execute() throws Exception {
-                return new NumberValue((double) turtleWorld.getBackground().getRGB());
+                return new DoubleValue((double) turtleWorld.getBackground().getRGB());
             }
         });
         
@@ -158,15 +161,15 @@ public class TurtleRegister extends AbstractRegister {
             }
         });
         
-        reg("blue", new NumberValue(Color.BLUE.getRGB()));
-        reg("red", new NumberValue(Color.RED.getRGB()));
-        reg("green", new NumberValue(Color.GREEN.getRGB()));
-        reg("orange", new NumberValue(Color.ORANGE.getRGB()));
-        reg("yellow", new NumberValue(Color.YELLOW.getRGB()));
-        reg("black", new NumberValue(Color.BLACK.getRGB()));
-        reg("white", new NumberValue(Color.WHITE.getRGB()));
-        reg("gray", new NumberValue(Color.GRAY.getRGB()));
-        reg("lightgray", new NumberValue(Color.LIGHT_GRAY.getRGB()));
+        reg("blue", new IntegerValue(Color.BLUE.getRGB()));
+        reg("red", new IntegerValue(Color.RED.getRGB()));
+        reg("green", new IntegerValue(Color.GREEN.getRGB()));
+        reg("orange", new IntegerValue(Color.ORANGE.getRGB()));
+        reg("yellow", new IntegerValue(Color.YELLOW.getRGB()));
+        reg("black", new IntegerValue(Color.BLACK.getRGB()));
+        reg("white", new IntegerValue(Color.WHITE.getRGB()));
+        reg("gray", new IntegerValue(Color.GRAY.getRGB()));
+        reg("lightgray", new IntegerValue(Color.LIGHT_GRAY.getRGB()));
         
         
         

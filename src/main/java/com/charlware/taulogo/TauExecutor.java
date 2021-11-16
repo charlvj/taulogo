@@ -32,6 +32,7 @@ public class TauExecutor {
     public TauExecutor(DrawingPane turtleWorld) {
         this.turtleWorld = turtleWorld;
         tauRuntime = new com.charlware.taulang.Runtime();
+        tauRuntime.getSearchPath().add(Value.of("src/main/tau"));
         tauRuntime.addRegister(new TurtleRegister(turtleWorld));
         tauRuntime.initialize();
         tau = new Interpreter(tauRuntime);

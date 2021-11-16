@@ -29,7 +29,7 @@ public class Turtle {
     }
 
     public Turtle left(double angle) {
-        direction = Math.abs((direction + angle) % 360);
+        direction = (direction + angle) % 360;
         fireTurtleTurned();
         return this;
     }
