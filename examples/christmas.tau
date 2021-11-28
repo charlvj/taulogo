@@ -1,3 +1,25 @@
+to :christmas_scene []
+[ penup 
+  bk 100
+  rt 90 fd 200 lt 90
+  pendown
+  
+  snowman
+
+  penup bk 340 
+  lt 90 fd 800 rt 90
+  pendown
+
+  tree 5 80 300
+
+  penup
+  rt 90 fd 230 lt 90 fd 80
+  pendown
+
+  tree 4 50 200
+]
+expose :christmas_scene
+
 to :circle [:step :angle :direction]
 [ make :count div 360 angle
   repeat count 
@@ -45,9 +67,26 @@ to :snowman []
   /* Get into pos for a mouth */
   lt 90   repeat 9 [ fd 2 rt 10 ]
   rt 120
-  /* And draw a mount */
+  /* And draw a mouth */
   pendown repeat 6 [ fd 4 lt 10 ]
 
+  /* Move to the nose */
+  penup repeat 3 [ rt 10 bk 4 ]
+  lt 90 fd 10
+
+  /* draw nose */
+  pendown
+  rt 75 fd 20 lt 150 fd 20 rt 75
+
+  /* Move to the eyes */
+  penup fd 10
+
+  /* Draw the eyes */
+  lt 90 fd 10
+  pendown
+  rt 90 circle 1 20 @rt
+  penup rt 90 fd 20 pendown
+  lt 90 circle 1 20 @rt
 ]
 expose :snowman
 
@@ -63,16 +102,89 @@ to :snowman_arm [:length]
 expose :snowman_arm
 
 
+to :tree [:segments :seg_height :bottom_width]
+[ make :r toRadians 50
 
+  make :box_width div bottom_width 6
+  make :box_width_half mult box_width 0.5
 
-to :triangle [:size :direction]
-[ lt 30 
-  fd size
-  call direction 120
-  fd size
-  call direction 120
-  fd size
-  call direction 120
-  rt 30
+  make :width_of_top_triangle   
+    mult 
+        2
+        div 
+          seg_height
+          tan r 
+
+  make :reduction_length
+    mult 
+      inverse  dec segments 
+      minus bottom_width width_of_top_triangle
+      
+  lt 90 fd box_width_half
+  rt 90 fd box_width
+  rt 90 fd box_width
+  rt 90 fd box_width
+  rt 90 fd box_width_half
+  rt 90
+
+  penup fd box_width pendown
+
+  repeat segments [
+    make :width minus bottom_width mult $0 reduction_length
+    printline [ $0 " - " width ]
+    iso_trap width seg_height 50
+    penup fd seg_height pendown
+  ]
+
+  penup
+  bk mult segments seg_height
+  bk box_width
+  pendown
 ]
-expose :triangle
+expose :tree
+
+
+to :iso_trap [:width :height :angle]
+[ make :r toRadians angle
+  make :center mult 0.5 width
+  make :side_length 
+  	div height 
+  	    sin r
+  make :top_length
+    mult
+      2
+      minus
+        center
+        div height
+             tan r 
+  lt 90 fd center
+  rt minus 180 angle
+  fd side_length
+  rt angle
+  fd top_length
+  rt angle
+  fd side_length
+  rt minus 180 angle
+  fd center rt 90
+]
+expose :iso_trap
+
+
+to :iso_triangle [:width :height :angle]
+[ make :r toRadians angle
+  make :center div width 2
+  make :side_length 
+  	div height 
+  	    sin r
+  printline ["Triangle: " width " " height " " angle]
+  printline ["  Center: " center "; sidelength: " side_length]
+  lt 90 fd center
+  rt minus 180 angle
+  fd side_length
+  rt angle
+  rt angle
+  fd side_length
+  rt minus 180 angle
+  fd center rt 90
+]
+expose :iso_triangle
