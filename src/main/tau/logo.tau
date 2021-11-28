@@ -16,5 +16,7 @@ to :moveto [:x :y]
   ]
 expose :moveto
 
+/*
 alias :repeat :times
 expose :repeat
+*/

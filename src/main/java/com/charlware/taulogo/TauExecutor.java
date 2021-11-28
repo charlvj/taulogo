@@ -33,8 +33,14 @@ public class TauExecutor {
         this.turtleWorld = turtleWorld;
         tauRuntime = new com.charlware.taulang.Runtime();
         tauRuntime.getSearchPath().add(Value.of("src/main/tau"));
-        tauRuntime.addRegister(new TurtleRegister(turtleWorld));
-        tauRuntime.initialize();
+        tauRuntime.initialize();     
+        
+        // Register this separately so that we can register in a new scope. 
+        TurtleRegister turtleRegister = new TurtleRegister(turtleWorld);
+        turtleRegister.setRuntime(tauRuntime);
+        turtleRegister.registerAll();
+        tauRuntime.getMemory().pushScope();
+        
         tau = new Interpreter(tauRuntime);
         tauRuntime.setInterpreter(tau);
         try {
