@@ -16,7 +16,9 @@ to :moveto [:x :y]
   ]
 expose :moveto
 
-/*
-alias :repeat :times
-expose :repeat
-*/
+to :draw_animated [:code]
+[ set_turtle_animation true
+  call code []
+  set_turtle_animation false
+]
+expose :draw_animated

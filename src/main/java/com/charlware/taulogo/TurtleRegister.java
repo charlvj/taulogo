@@ -10,6 +10,7 @@ import java.awt.Color;
 import com.charlware.taulang.AbstractRegister;
 import com.charlware.taulang.functions.GenericFunction0;
 import com.charlware.taulang.functions.GenericFunction1;
+import com.charlware.taulang.values.BooleanValue;
 import com.charlware.taulang.values.DoubleValue;
 import com.charlware.taulang.values.IntegerValue;
 import com.charlware.taulang.values.NumberValue;
@@ -158,6 +159,15 @@ public class TurtleRegister extends AbstractRegister {
                 Color color = new Color(colorVal.asInteger());
                 turtleWorld.setBackground(color);
                 return colorVal;
+            }
+        });
+        
+        reg(new GenericFunction1("set_turtle_animation", "enabled") {
+            @Override
+            public Value execute(Value enabledVal) throws Exception {
+                boolean enabled = enabledVal.asBoolean();
+                turtle.setAnimateMovement(enabled);
+                return BooleanValue.TRUE;
             }
         });
         

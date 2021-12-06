@@ -7,6 +7,7 @@ package com.charlware.taulogo;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
+import java.math.BigDecimal;
 
 /**
  *
@@ -19,6 +20,8 @@ public class Turtle {
     private boolean penDown = true;
     private boolean hidden = false;
     private Color penColor = Color.BLACK;
+    private boolean animateMovement = false;
+    private int animationSleep = 3;
     
     private TurtleListener listener = null;
 
@@ -38,23 +41,50 @@ public class Turtle {
         double x = position.getX();
         double y = position.getY();
         double angle = Math.toRadians(direction);
-        double newX = distance * Math.cos((double) angle);
-        double newY = -distance * Math.sin((double) angle);
+        
 //        System.out.println("Forward Direction= " + direction + "; angle=" + angle + "; x=" + x + "; y=" + y + "; newX=" + newX + "; newY=" + newY);
-        position.setLocation(x + newX, y + newY);
-        fireTurtleMoved();
+        if(animateMovement) {
+        	BigDecimal d = new BigDecimal(distance);
+        	int d_int = Math.abs(d.intValue());
+        	int dir = distance < 0 ? -1 : 1;
+        	for(int i = 0; i < d_int; i++) {
+                double newX = dir * Math.cos((double) angle);
+                double newY = -dir * Math.sin((double) angle);
+        		position.setLocation(x + newX, y + newY);
+        		x += newX;
+        		y += newY;
+        		fireTurtleMoved();
+        		try {
+					Thread.sleep(animationSleep);
+				} catch (InterruptedException e) {
+					// Just ignore for now
+				}
+        	}
+        	double d_dec = d.subtract(new BigDecimal(dir * d_int)).doubleValue();
+            double newX = d_dec * Math.cos((double) angle);
+            double newY = -d_dec * Math.sin((double) angle);
+    		position.setLocation(x + newX, y + newY);
+    		fireTurtleMoved();
+        }
+        else {
+        	double newX = distance * Math.cos((double) angle);
+            double newY = -distance * Math.sin((double) angle);
+	        position.setLocation(x + newX, y + newY);
+	        fireTurtleMoved();
+        }
         return this;
     }
     
     public Turtle back(double distance) {
-        distance = -distance;
-        double x = position.getX();
-        double y = position.getY();
-        double newX = distance * Math.cos((double) Math.toRadians(direction));
-        double newY = -distance * Math.sin((double) Math.toRadians(direction));
-        position.setLocation(x + newX, y + newY);
-        fireTurtleMoved();
-        return this;
+    	return forward(-distance);
+//        distance = -distance;
+//        double x = position.getX();
+//        double y = position.getY();
+//        double newX = distance * Math.cos((double) Math.toRadians(direction));
+//        double newY = -distance * Math.sin((double) Math.toRadians(direction));
+//        position.setLocation(x + newX, y + newY);
+//        fireTurtleMoved();
+//        return this;
     }
     
     public void fireTurtleMoved() {
@@ -116,4 +146,22 @@ public class Turtle {
     public Color getColor() {
         return penColor;
     }
+
+	public boolean isAnimateMovement() {
+		return animateMovement;
+	}
+
+	public void setAnimateMovement(boolean animateMovement) {
+		this.animateMovement = animateMovement;
+	}
+
+	public int getAnimationSleep() {
+		return animationSleep;
+	}
+
+	public void setAnimationSleep(int animationSleep) {
+		this.animationSleep = animationSleep;
+	}
+    
+    
 }

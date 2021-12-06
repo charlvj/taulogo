@@ -1,36 +1,61 @@
 to :christmas_scene []
-[ penup 
-  bk 100
-  lt 90 fd 200 rt 90
-  pendown
-  
-  snowman
+[ draw_animated [
+    relocate -100 -200
 
-  penup bk 340 
-  lt 90 fd 300 rt 90
-  pendown
+    snowman
 
-  tree 5 80 300
+    relocate -340 -300
 
-  penup
-  rt 90 fd 500 lt 90 fd 80
-  pendown
+    tree 5 80 300
 
-  tree 3 40 150
+    relocate 80 500
 
-  penup
-  rt 90 fd 200 lt 90 fd 50
-  pendown
+    tree 3 40 150
 
-  tree 5 50 220
+    relocate 50 200
 
-  penup
-  rt 90 fd 250 lt 90 bk 130
-  pendown
+    tree 5 50 220
+ 
+    relocate -130 250
 
-  tree 5 60 300
+    tree 5 60 300
+  ]
+
+  relocate 0 -1000
+  repeat 50 
+  [ make :r_up random_int 600
+    make :r_right random_int 1200
+    make :a random_int 60
+    relocate r_up r_right
+    rt a
+    draw_animated [ snowflake random_int 10 ]
+    lt a
+    relocate minus 0 r_up minus 0 r_right
+  ]
+
+
+  penup fd 340 rt 90 fd 349 pendown lt 90
+
+  wait 100
+  animate_the_hat
+  animate_the_hat
 ]
 expose :christmas_scene
+
+to :animate_the_hat []
+[ repeat 5
+  [ setforeground white snowman_hat 80
+    fd 5 rt 5
+    setforeground black snowman_hat 80
+    wait 10
+  ]
+  repeat 5
+  [ setforeground white snowman_hat 80
+    lt 5 bk 5
+    setforeground black snowman_hat 80
+    wait 10
+  ]
+]
 
 to :circle [:step :angle :direction]
 [ make :count div 360 angle
@@ -39,7 +64,7 @@ to :circle [:step :angle :direction]
     call direction angle 
   ]
 ]
-expose :circle
+
 
 to :snowman []
 [ rt 90
@@ -99,8 +124,10 @@ to :snowman []
   rt 90 circle 1 20 @rt
   penup rt 90 fd 20 pendown
   lt 90 circle 1 20 @rt
+
+  penup lt 90 fd 10 rt 90 fd 35 pendown
+  snowman_hat 80
 ]
-expose :snowman
 
 
 to :snowman_arm [:length]
@@ -111,7 +138,27 @@ to :snowman_arm [:length]
   lt 20 fd finger_length bk finger_length
   bk length
 ]
-expose :snowman_arm
+
+
+to :filled_rect [:width :height]
+[ make :half mult width 0.5
+  
+  lt 90 fd half rt 180
+
+  repeat height [
+    fd width lt 90 fd 1 lt 90 fd width rt 90 rt 90
+  ]
+
+  fd half lt 90
+]
+
+
+to :snowman_hat [:width]
+[ make :half mult width 0.5
+  filled_rect width 10
+  filled_rect half 10
+  bk 20
+]
 
 
 to :tree [:segments :seg_height :bottom_width]
@@ -143,7 +190,6 @@ to :tree [:segments :seg_height :bottom_width]
 
   repeat segments [
     make :width minus bottom_width mult $0 reduction_length
-    printline [ $0 " - " width ]
     iso_trap width seg_height 50
     penup fd seg_height pendown
   ]
@@ -153,7 +199,6 @@ to :tree [:segments :seg_height :bottom_width]
   bk box_width
   pendown
 ]
-expose :tree
 
 
 to :iso_trap [:width :height :angle]
@@ -179,7 +224,6 @@ to :iso_trap [:width :height :angle]
   rt minus 180 angle
   fd center rt 90
 ]
-expose :iso_trap
 
 
 to :iso_triangle [:width :height :angle]
@@ -188,8 +232,6 @@ to :iso_triangle [:width :height :angle]
   make :side_length 
   	div height 
   	    sin r
-  printline ["Triangle: " width " " height " " angle]
-  printline ["  Center: " center "; sidelength: " side_length]
   lt 90 fd center
   rt minus 180 angle
   fd side_length
@@ -198,6 +240,16 @@ to :iso_triangle [:width :height :angle]
   fd side_length
   rt minus 180 angle
   fd center rt 90
- printline "check"
 ]
-expose :iso_triangle
+
+
+to :snowflake [:radius]
+[  repeat 6 [ fd radius bk radius lt 60 ]
+]
+
+
+to :relocate [:up :right]
+[ penup
+  fd up rt 90 fd right lt 90
+  pendown
+]
