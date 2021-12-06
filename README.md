@@ -19,4 +19,4 @@ Please see the [TauLang](https://github.com/charlvj/taulang) page for documentat
    * setforeground  (it might have been just foreground?)
    * setbackground  (it might have been just background?)
    * clearscreen
-3) When drawing and erasing lines _backwards_ (fd 100 setforeground backgroundColor bk 100) you end up with some minor artifacts. 
+3) The editor is not very functional. Every open editor tab is loaded each time you run a manual command, but saving and opening files are buggy.
