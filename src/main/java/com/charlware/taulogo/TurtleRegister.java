@@ -10,10 +10,11 @@ import java.awt.Color;
 import com.charlware.taulang.AbstractRegister;
 import com.charlware.taulang.functions.GenericFunction0;
 import com.charlware.taulang.functions.GenericFunction1;
+import com.charlware.taulang.util.LinkedList;
 import com.charlware.taulang.values.BooleanValue;
 import com.charlware.taulang.values.DoubleValue;
 import com.charlware.taulang.values.IntegerValue;
-import com.charlware.taulang.values.NumberValue;
+import com.charlware.taulang.values.ListValue;
 import com.charlware.taulang.values.Value;
 
 /**
@@ -170,6 +171,16 @@ public class TurtleRegister extends AbstractRegister {
                 return BooleanValue.TRUE;
             }
         });
+        
+//        reg(new GenericFunction1("setpos", "coordinates") {
+//            @Override
+//            public Value execute(Value coordVal) throws Exception {
+//                ListValue coordListVal = (ListValue) coordVal;
+//                LinkedList coordList = coordListVal.getValue();
+//                
+//                return colorVal;
+//            }
+//        });
         
         reg("blue", new IntegerValue(Color.BLUE.getRGB()));
         reg("red", new IntegerValue(Color.RED.getRGB()));

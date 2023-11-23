@@ -84,7 +84,7 @@ public class MainFrame extends javax.swing.JFrame {
         for(JComponent comp: tabs.values()) {
             TauEditorPane p = (TauEditorPane) comp;
             try {
-                p.saveFile();
+                p.saveFile(true);
             } catch (FileNotFoundException ex) {
                 System.out.println("Trouble loading a file: " + ex);
             }
